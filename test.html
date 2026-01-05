@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MetaMask + ViEM Test</title>
+
+    <!-- REMOVE CSP restrictions for localhost -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;">
+
+</head>
+<body>
+    <h1>MetaMask + ViEM Test</h1>
+    <button id="connectButton">Connect MetaMask</button>
+
+    <script type="module">
+        import { createWalletClient, custom } from "https://esm.sh/viem";
+
+        const connectButton = document.getElementById("connectButton");
+        let walletClient;
+
+        connectButton.onclick = async () => {
+            console.log("Connect button clicked");
+
+            if (typeof window.ethereum === "undefined") {
+                alert("MetaMask is not installed!");
+                return;
+            }
+
+            try {
+                // Request MetaMask accounts
+                console.log("Requesting accounts from MetaMask...");
+                const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+                console.log("Connected accounts:", accounts);
+
+                // Create ViEM wallet client AFTER connection
+                walletClient = createWalletClient({
+                    transport: custom(window.ethereum)
+                });
+                console.log("Wallet client ready:", walletClient);
+
+                connectButton.innerText = `Connected: ${accounts[0]}`;
+            } catch (err) {
+                console.error("Failed to connect:", err);
+                connectButton.innerText = "Connection failed!";
+            }
+        };
+    </script>
+</body>
+</html>
