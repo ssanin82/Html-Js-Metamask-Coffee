@@ -8,7 +8,7 @@ My take on Cyfrin Updraft tutorial.
 - Brave browser (unless you are a Chrome security expert).
 - Metamask extension installed and unlocked in Brave.
 - VSCode + Live Server plugin.
-- foundry installed
+- Foundry installed
 
 ## Caveat
 In my case, I failed to run in Chrome no matter how I tried. It just blocks Viem's attempts to interact with Metamask from localhost. It should allow it from a secure location with a trusted SSL certificate.
